@@ -11,7 +11,7 @@ public class Tile : MonoBehaviour
     {
         this.value = Random.Range(0,6);
         Debug.Log(value);
-        this.sprite = Resources.Load<Sprite>($"Resources/images/free-fruit-icons-vector_0{value}");
+        this.sprite = Resources.Load<Sprite>($"images/fruit{value}");
         Debug.Log(sprite);
         this.gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite;
 
