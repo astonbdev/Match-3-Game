@@ -5,23 +5,27 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject [,] board;
+    public GameObject[,] board;
+    public int boardSize = 6;
+
     void Start()
     {
-        board = new GameObject [6,6];
+        board = new GameObject[boardSize, boardSize];
 
         GameObject tile = (GameObject)Resources.Load("prefabs/Tile", typeof(GameObject));
 
-        for(int i=0; i < 6; i++){
-            for(int j=0; j < 6; j++){
-                board[i,j] = Instantiate(tile, new Vector3(0,0,0), Quaternion.identity);
+        //Generate Tiles
+        for (int i = 0; i < boardSize; i++)
+        {
+            for (int j = 0; j < boardSize; j++)
+            {
+                Instantiate(
+                    tile, 
+                    new Vector3(0 + i, 0 + j, 0), 
+                    Quaternion.identity
+                );
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

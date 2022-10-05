@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
     public int value;
     void Start()
     {
-        this.value = Random.Range(1,6);
+        this.value = Random.Range(1, 6);
         Debug.Log(value);
         this.sprite = Resources.Load<Sprite>($"images/fruit{value}");
         Debug.Log(sprite);
@@ -18,9 +18,10 @@ public class Tile : MonoBehaviour
         Debug.Log(spriteRenderer.bounds.size.x);
         Debug.Log(spriteRenderer.bounds.size.y);
         this.transform.position = new Vector3(
-            this.transform.position.x*spriteRenderer.bounds.size.x,
-            this.transform.position.y*spriteRenderer.bounds.size.y,
-            0);
+            this.transform.position.x * spriteRenderer.bounds.size.x,
+            this.transform.position.y * spriteRenderer.bounds.size.y,
+            0
+        );
 
     }
 
