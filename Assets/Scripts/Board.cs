@@ -28,16 +28,18 @@ public class Board : MonoBehaviour
 
                 Tile tileComponent = newTile.GetComponent<Tile>();
 
-                tileComponent.addSprite(Random.Range(1, 6));
+                //tileComponent.addSprite(Random.Range(1, 1));
+                tileComponent.initializeTile(i,j);
                 board[i, j] = newTile;
-                Debug.Log("board state" + board[i, j]);
+                // Debug.Log("board state" + board[i, j]);
             }
         }
 
-        StartCoroutine(DebugBoardState(2f));
+        //StartCoroutine(DebugBoardState(2f));
     }
 
-    IEnumerator DebugBoardState(float waitTime){
+    IEnumerator DebugBoardState(float waitTime)
+    {
         yield return new WaitForSeconds(waitTime);
 
         this.checkForMatches();
@@ -45,20 +47,34 @@ public class Board : MonoBehaviour
     //Swaps two passed tiles positions, reallocates neighbors
     public void swapTiles(GameObject tileOne, GameObject tileTwo)
     {
-        Vector3 tempPos1 = new Vector3(0, 0, 0);
-        tempPos1 = tileOne.transform.position;
-        Vector3 tempPos2 = new Vector3(0, 0, 0);
-        tempPos2 = tileTwo.transform.position;
+        Vector3 tileOnePos = tileOne.transform.position;
+        Vector3 tileTwoPos = tileTwo.transform.position;
 
-        //Change the position of each tile in game space
-        //Debug.Log("Before fN: "+ tempPos1);
-        tileOne.transform.position = tempPos2;
-        tileTwo.transform.position = tempPos1;
+        tileOne.transform.position = tileTwoPos;
+        tileTwo.transform.position = tileOnePos;
 
-        //checkForMatches();
+        Tile tileOneComp = tileOne.GetComponent<Tile>();
+        Tile tileTwoComp = tileTwo.GetComponent<Tile>();
+
+        // Debug.Log(string.Format("tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
+        // Debug.Log(string.Format("tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
+
+        //update tiles
+        (tileOneComp.row, tileTwoComp.row) = (tileTwoComp.row, tileOneComp.row);
+        (tileOneComp.col, tileTwoComp.col) = (tileTwoComp.col, tileOneComp.col);
+
+        //update board state
+        this.board[tileOneComp.row, tileOneComp.col] = tileOne;
+        this.board[tileTwoComp.row, tileTwoComp.col] = tileTwo;
+
+        // Debug.Log(string.Format("Post Swap tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
+        // Debug.Log(string.Format("Post Swap tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
     }
 
-    private void checkForMatches()
+    /** Controller function to check for tiles matches on 3 or more in horizontal 
+        and vertical directions
+    */
+    public void checkForMatches()
     {
         HashSet<GameObject> matchedTiles = new HashSet<GameObject>();
 
@@ -71,14 +87,19 @@ public class Board : MonoBehaviour
             }
         }
 
-        foreach(GameObject tile in matchedTiles){
-            Debug.Log("Tile Value: " + tile.GetComponent<Tile>().value);
+        foreach (GameObject tile in matchedTiles)
+        {
+            // Debug.Log("Tile Value: " + tile.GetComponent<Tile>().value);
             tile.GetComponent<SpriteRenderer>().color = Color.blue;
         }
 
-        Debug.Log("MatchedTiles Length: " + matchedTiles.Count);
+        // Debug.Log("MatchedTiles Length: " + matchedTiles.Count);
     }
 
+    /**
+        Given set of 2 dimensional array indices, test that the next 2 neighboring tiles
+        have the same value. Append matching tiles to list, and return the list
+    */
     private List<GameObject> checkNeighbors(int row, int col)
     {
         GameObject currentTile = board[row, col];
@@ -87,49 +108,61 @@ public class Board : MonoBehaviour
 
         List<List<GameObject>> neighbors = getTileNeighbors(row, col);
 
-        if(neighbors[0].Count != 0){
-            foreach(List<GameObject> neighborSet in neighbors){
+        foreach (List<GameObject> neighborSet in neighbors)
+        {
+            if(neighborSet.Count >= 2){
                 int value1 = neighborSet[0].GetComponent<Tile>().value;
                 int value2 = neighborSet[1].GetComponent<Tile>().value;
 
-                if(value1 == currTileValue && value2 == currTileValue){
-                    foreach(GameObject neighbor in neighborSet){
+                // Debug.Log("1,2,3 " + value1 + " " + value2 + " " + currTileValue);
+
+                if (value1 == currTileValue && value2 == currTileValue)
+                {
+                    foreach (GameObject neighbor in neighborSet)
+                    {
+                        // Debug.Log("num neighbors " + neighborSet.Count);
                         matchingTiles.Add(neighbor);
                     }
+                    matchingTiles.Add(currentTile);
                 }
             }
         }
-
         return matchingTiles;
     }
 
     /**
         takes int row and col,
-        returns List of neighbors in board if within bounds
+        returns List of neighbors up to 2 spaces away and within bounds
     */
-    private List<List<GameObject>> getTileNeighbors(int row, int col){
+    private List<List<GameObject>> getTileNeighbors(int row, int col)
+    {
         List<List<GameObject>> neighbors = new List<List<GameObject>>
         {
-            new List<GameObject>{}, 
+            new List<GameObject>{},
             new List<GameObject>{}
         };
 
-        bool neighbor1 = !((row+2 >= boardSize) || (col+2 >= boardSize));
-        bool neighbor2 = !((row+1 >= boardSize) || (col+1 >= boardSize));
-
-        if(neighbor1 && neighbor2){
-            //add southern neighbors
-            Debug.Log("row/col: " + row + " " + col);
+        //test rows
+        if (!(row + 1 >= boardSize))
+        {
             neighbors[0].Add(board[row + 1, col]);
-            neighbors[1].Add(board[row + 2, col]);
-            //add eastern neighbors
-            neighbors[0].Add(board[row, col + 1]);
+        }
+        if (!(row + 2 >= boardSize))
+        {
+            neighbors[0].Add(board[row + 2, col]);
+        }
+
+        //test cols
+        if (!(col + 1 >= boardSize))
+        {
+            neighbors[1].Add(board[row, col + 1]);
+
+        }
+        if (!(col + 2 >= boardSize))
+        {
             neighbors[1].Add(board[row, col + 2]);
         }
 
         return neighbors;
     }
-
-
-
 }
