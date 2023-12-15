@@ -19,11 +19,16 @@ public class Tile : MonoBehaviour
         }
     }
     public Sprite sprite; // tile(Tile).direcrtions
-    public int value;
+    public int fruitIcon;
     public int row;
     public int col;
     Directions directions;
     GameObject game;
+
+    /**
+        initializes the tile state, giving it a random fruit sprite and 
+        setting it's neighbors
+    */
     public void initializeTile(int row, int col)
     {
         Debug.Log("initializeTile" + " " + row + col);
@@ -33,8 +38,8 @@ public class Tile : MonoBehaviour
 
         game = GameObject.Find("Game");
 
-        this.value = Random.Range(1, 4);
-        addSprite(value);
+        this.fruitIcon = Random.Range(1, 4);
+        addSprite(fruitIcon);
 
         SpriteRenderer spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         this.transform.position = new Vector3(
@@ -47,9 +52,9 @@ public class Tile : MonoBehaviour
     /**
     *   retrieves sprite resource and adds it to this components SpriteRenderer
     **/
-    public void addSprite(int spriteValue)
+    public void addSprite(int spriteFruitIcon)
     {
-        this.sprite = Resources.Load<Sprite>($"images/fruit{value}");
+        this.sprite = Resources.Load<Sprite>($"images/fruit{spriteFruitIcon}");
         this.gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite;
     }
 
