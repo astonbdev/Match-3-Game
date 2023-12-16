@@ -19,7 +19,7 @@ public class Tile : MonoBehaviour
         }
     }
     public Sprite sprite; // tile(Tile).direcrtions
-    public int fruitIcon;
+    public int value;
     public int row;
     public int col;
     Directions directions;
@@ -38,14 +38,13 @@ public class Tile : MonoBehaviour
 
         game = GameObject.Find("Game");
 
-        this.fruitIcon = Random.Range(1, 4);
-        addSprite(fruitIcon);
+        this.value = Random.Range(1, 4);
+        addSprite(this.value);
 
-        SpriteRenderer spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite= this.gameObject.GetComponent<SpriteRenderer>();
         this.transform.position = new Vector3(
-            this.transform.position.x * spriteRenderer.bounds.size.x,
-            this.transform.position.y * spriteRenderer.bounds.size.y,
-            0
+            this.transform.position.x * sprite.bounds.size.x,
+            this.transform.position.y * sprite.bounds.size.y
         );
     }
 

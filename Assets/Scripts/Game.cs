@@ -27,6 +27,7 @@ public class Game : MonoBehaviour
         }
     }
 
+    
     void testClickedTiles(){
         Debug.Log("testClickedTiles");
         GameObject tileOne = selectedTiles[0];
