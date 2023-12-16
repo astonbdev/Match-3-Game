@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Android;
 
 public class Tile : MonoBehaviour
 {
-    struct Directions
+    public struct Directions
     {
         public int north;
         public int south;
@@ -17,18 +18,24 @@ public class Tile : MonoBehaviour
             east = col + 1;
             west = col - 1;
         }
+
+        public override string ToString() => $@"
+            north: {north}
+            south: {south}
+            east: {east}
+            west: {west}";
     }
     public Sprite sprite; // tile(Tile).direcrtions
     public int value;
     public int row;
     public int col;
-    Directions directions;
+    public Directions directions;
     GameObject game;
 
     /**
         initializes the tile state, giving it a random fruit sprite and 
         setting it's neighbors
-    */
+*/
     public void initializeTile(int row, int col)
     {
         Debug.Log("initializeTile" + " " + row + col);
@@ -48,6 +55,11 @@ public class Tile : MonoBehaviour
         );
     }
 
+    public void updateDirections(int row, int col)
+    {
+        this.directions = new Directions(row, col);
+    }
+
     /**
     *   retrieves sprite resource and adds it to this components SpriteRenderer
     **/
@@ -61,58 +73,41 @@ public class Tile : MonoBehaviour
     void OnMouseDown()
     {
         Debug.Log("Clicked");
+        Debug.Log($"{directions}");
         game.GetComponent<Game>().addClickedTile(this.gameObject);
     }
 
     /** returns bool if given coords are neighboring this tile horizontally or 
-    *    vertically
-    */
+    *   vertically
+*/
     public bool testNeighbor(int targetRow, int targetCol)
     {
-        Debug.Log("testNeighbor: " + targetRow + " " + targetCol);
-        Debug.Log("thisTile: " + this.row + " " + this.col);
-        Debug.Log(
-            string.Format(
-                "directions: south {0} north {1} west {2} east {3} ",
-                this.directions.south,
-                this.directions.north,
-                this.directions.west,
-                this.directions.east
-            )
-        );
+        Debug.Log($"targets: row-{targetRow}, col-{targetCol}");
+        Debug.Log($"this tile: row-{this.row}, col-{this.col}");
+        Debug.Log($"directions: vert-{this.directions.south}-{this.directions.north}");
+        Debug.Log($"directions: horiz-{this.directions.west}-{this.directions.east}");
+
+
+
         // fail fast, cannot be the same tile
         if (this.row == targetRow && this.col == targetCol)
         {
             return false;
         }
 
+        //since we have tested that the tile is NOT the same tile, we can now test
+        //that the row or column is either of the associated cardinal directions
         bool inVertRange = (
-            (targetCol >= this.directions.south) && (targetCol <= this.directions.north)
+            (targetCol == this.directions.south)
+            || (targetCol == this.directions.north)
         );
 
         bool inHorizRange = (
-            (targetRow >= this.directions.west) && (targetCol <= this.directions.east)
+            (targetRow == this.directions.west)
+            || (targetCol == this.directions.east)
         );
 
-        //is this code actually doing anything?
-        if (inVertRange && inHorizRange)
-        {
+        return inVertRange || inHorizRange;
 
-            //since we are only checking the four cardinal directions, then one of the following
-            //must be true:
-            //the target is in the same row, return that value, otherwise the target is in the same 
-            //column, return that value
-            if (this.row == targetRow)
-            {
-                return inVertRange;
-            }
-            if (this.col == targetCol)
-
-            {
-                return inHorizRange;
-            }
-        }
-
-        return false;
     }
 }

@@ -15,7 +15,8 @@ public class Board : MonoBehaviour
         GameObject tile = (GameObject)Resources.Load("prefabs/Tile", typeof(GameObject));
 
         //Generate Tiles
-        for (int i = 0; i < boardSize; i++)
+        //Starts at bottom left, then adds new item to each row flowing up, then new column.
+        for (int i = 0; i < 1; i++)
         {
             for (int j = 0; j < boardSize; j++)
             {
@@ -29,11 +30,13 @@ public class Board : MonoBehaviour
                 Tile tileComponent = newTile.GetComponent<Tile>();
 
                 //tileComponent.addSprite(Random.Range(1, 1));
-                tileComponent.initializeTile(i,j);
+                tileComponent.initializeTile(j, i);
                 board[i, j] = newTile;
                 // Debug.Log("board state" + board[i, j]);
             }
         }
+        board[0, 0].GetComponent<SpriteRenderer>().color = Color.blue;
+
 
         //StartCoroutine(DebugBoardState(2f));
     }
@@ -110,7 +113,8 @@ public class Board : MonoBehaviour
 
         foreach (List<GameObject> neighborSet in neighbors)
         {
-            if(neighborSet.Count >= 2){
+            if (neighborSet.Count >= 2)
+            {
                 int value1 = neighborSet[0].GetComponent<Tile>().value;
                 int value2 = neighborSet[1].GetComponent<Tile>().value;
 

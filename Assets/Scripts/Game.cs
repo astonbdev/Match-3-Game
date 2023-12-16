@@ -13,32 +13,39 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void addClickedTile(GameObject tile){
+    public void addClickedTile(GameObject tile)
+    {
         selectedTiles.Add(tile);
 
         Debug.Log("selectedTiles Count: " + selectedTiles.Count);
 
-        if(selectedTiles.Count == 2){
+        if (selectedTiles.Count == 2)
+        {
             testClickedTiles();
             selectedTiles.Clear();
         }
     }
 
-    
-    void testClickedTiles(){
+
+    void testClickedTiles()
+    {
         Debug.Log("testClickedTiles");
         GameObject tileOne = selectedTiles[0];
         GameObject tileTwo = selectedTiles[1];
-        
+
         Tile tileOneComp = selectedTiles[0].GetComponent<Tile>();
         Tile tileTwoComp = selectedTiles[1].GetComponent<Tile>();
 
-        if(tileOneComp.testNeighbor(tileTwoComp.row, tileTwoComp.col)){
+        if (tileOneComp.testNeighbor(tileTwoComp.row, tileTwoComp.col))
+        {
+            tileOneComp.updateDirections(tileTwoComp.row, tileTwoComp.col);
+            tileTwoComp.updateDirections(tileOneComp.row, tileOneComp.col);
+
             this.board.GetComponent<Board>().swapTiles(tileOne, tileTwo);
-            this.board.GetComponent<Board>().checkForMatches();
+            // this.board.GetComponent<Board>().checkForMatches();
         };
     }
 }
