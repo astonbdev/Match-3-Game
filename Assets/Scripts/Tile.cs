@@ -41,7 +41,7 @@ public class Tile : MonoBehaviour
         this.value = Random.Range(1, 4);
         addSprite(this.value);
 
-        SpriteRenderer sprite= this.gameObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite = this.gameObject.GetComponent<SpriteRenderer>();
         this.transform.position = new Vector3(
             this.transform.position.x * sprite.bounds.size.x,
             this.transform.position.y * sprite.bounds.size.y
@@ -81,7 +81,8 @@ public class Tile : MonoBehaviour
             )
         );
         // fail fast, cannot be the same tile
-        if(this.row == targetRow && this.col == targetCol){
+        if (this.row == targetRow && this.col == targetCol)
+        {
             return false;
         }
 
@@ -93,13 +94,20 @@ public class Tile : MonoBehaviour
             (targetRow >= this.directions.west) && (targetCol <= this.directions.east)
         );
 
+        //is this code actually doing anything?
         if (inVertRange && inHorizRange)
         {
-            if (inVertRange && (this.row == targetRow))
+
+            //since we are only checking the four cardinal directions, then one of the following
+            //must be true:
+            //the target is in the same row, return that value, otherwise the target is in the same 
+            //column, return that value
+            if (this.row == targetRow)
             {
                 return inVertRange;
             }
-            if(inHorizRange && (this.col == targetCol))
+            if (this.col == targetCol)
+
             {
                 return inHorizRange;
             }
