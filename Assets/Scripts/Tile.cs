@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Android;
-
+//TODO: This should probably just be a presentational component. The core logic
+//ought to live as a multidimentional array in game, and let game handle swapping
+//these presentational game pieces. Too much abstraction about the tile into
+//one class
 public class Tile : MonoBehaviour
 {
     public struct Directions

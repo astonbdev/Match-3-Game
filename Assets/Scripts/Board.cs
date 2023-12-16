@@ -16,7 +16,7 @@ public class Board : MonoBehaviour
 
         //Generate Tiles
         //Starts at bottom left, then adds new item to each row flowing up, then new column.
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < boardSize; i++)
         {
             for (int j = 0; j < boardSize; j++)
             {
@@ -31,7 +31,7 @@ public class Board : MonoBehaviour
 
                 //tileComponent.addSprite(Random.Range(1, 1));
                 tileComponent.initializeTile(j, i);
-                board[i, j] = newTile;
+                board[j, i] = newTile;
                 // Debug.Log("board state" + board[i, j]);
             }
         }
