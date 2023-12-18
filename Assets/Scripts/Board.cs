@@ -8,6 +8,9 @@ public class Board : MonoBehaviour
     public GameObject[,] board;
     public int boardSize = 6;
 
+    /** 
+        Renders the intial board state
+    */
     void Start()
     {
         board = new GameObject[boardSize, boardSize];
@@ -39,12 +42,12 @@ public class Board : MonoBehaviour
         board[boardSize - 1, 0].GetComponent<SpriteRenderer>().color = Color.green;
         board[0, boardSize - 1].GetComponent<SpriteRenderer>().color = Color.red;
 
-
-
-
         //StartCoroutine(DebugBoardState(2f));
     }
 
+    /**
+        For debugging
+    */
     IEnumerator DebugBoardState(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
@@ -64,8 +67,8 @@ public class Board : MonoBehaviour
         Tile tileTwoComp = tileTwo.GetComponent<Tile>();
 
 
-        Debug.Log(string.Format("tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
-        Debug.Log(string.Format("tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
+        // Debug.Log(string.Format("tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
+        // Debug.Log(string.Format("tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
 
         //update tiles
         (tileOneComp.row, tileTwoComp.row) = (tileTwoComp.row, tileOneComp.row);
@@ -74,8 +77,8 @@ public class Board : MonoBehaviour
         tileOneComp.updateDirections(tileOneComp.row, tileOneComp.col);
         tileTwoComp.updateDirections(tileTwoComp.row, tileTwoComp.col);
 
-        Debug.Log(string.Format("Post Swap tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
-        Debug.Log(string.Format("Post Swap tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
+        // Debug.Log(string.Format("Post Swap tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
+        // Debug.Log(string.Format("Post Swap tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
 
         //update board state
         this.board[tileOneComp.row, tileOneComp.col] = tileOne;
@@ -145,7 +148,8 @@ public class Board : MonoBehaviour
 
     /**
         takes int row and col,
-        returns List of neighbors up to 2 spaces away and within bounds
+        returns List of neighbors up to 2 spaces away to the right and above the 
+        current tile
     */
     private List<List<GameObject>> getTileNeighbors(int row, int col)
     {
