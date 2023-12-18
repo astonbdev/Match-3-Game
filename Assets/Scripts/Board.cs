@@ -16,26 +16,30 @@ public class Board : MonoBehaviour
 
         //Generate Tiles
         //Starts at bottom left, then adds new item to each row flowing up, then new column.
-        for (int i = 0; i < boardSize; i++)
+        for (int row = 0; row < boardSize; row++)
         {
-            for (int j = 0; j < boardSize; j++)
+            for (int col = 0; col < boardSize; col++)
             {
-                Vector3 startingPos = new Vector3(0 + i, 0 + j, 0);
+                Vector3 startingPos = new Vector3(row, col, 0);
                 GameObject newTile = Instantiate(
                     tile,
-                    new Vector3(0 + i, 0 + j, 0),
+                    startingPos,
                     Quaternion.identity
                 );
 
                 Tile tileComponent = newTile.GetComponent<Tile>();
 
                 //tileComponent.addSprite(Random.Range(1, 1));
-                tileComponent.initializeTile(j, i);
-                board[j, i] = newTile;
+                tileComponent.initializeTile(row, col);
+                board[row, col] = newTile;
                 // Debug.Log("board state" + board[i, j]);
             }
         }
         board[0, 0].GetComponent<SpriteRenderer>().color = Color.blue;
+        board[boardSize - 1, 0].GetComponent<SpriteRenderer>().color = Color.green;
+        board[0, boardSize - 1].GetComponent<SpriteRenderer>().color = Color.red;
+
+
 
 
         //StartCoroutine(DebugBoardState(2f));

@@ -16,10 +16,10 @@ public class Tile : MonoBehaviour
         public int west;
         public Directions(int row, int col)
         {
-            north = row + 1;
-            south = row - 1;
-            east = col + 1;
-            west = col - 1;
+            north = col + 1;
+            south = col - 1;
+            east = row + 1;
+            west = row - 1;
         }
 
         public override string ToString() => $@"
@@ -85,13 +85,6 @@ public class Tile : MonoBehaviour
 */
     public bool testNeighbor(int targetRow, int targetCol)
     {
-        Debug.Log($"targets: row-{targetRow}, col-{targetCol}");
-        Debug.Log($"this tile: row-{this.row}, col-{this.col}");
-        Debug.Log($"directions: vert-{this.directions.south}-{this.directions.north}");
-        Debug.Log($"directions: horiz-{this.directions.west}-{this.directions.east}");
-
-
-
         // fail fast, cannot be the same tile
         if (this.row == targetRow && this.col == targetCol)
         {
@@ -107,7 +100,7 @@ public class Tile : MonoBehaviour
 
         bool inHorizRange = (
             (targetRow == this.directions.west)
-            || (targetCol == this.directions.east)
+            || (targetRow == this.directions.east)
         );
 
         return inVertRange || inHorizRange;
