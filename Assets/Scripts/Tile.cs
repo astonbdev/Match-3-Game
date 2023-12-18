@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Android;
+using DG.Tweening;
 //TODO: This should probably just be a presentational component. The core logic
 //ought to live as a multidimentional array in game, and let game handle swapping
 //these presentational game pieces. Too much abstraction about the tile into
 //one class
+
 public class Tile : MonoBehaviour
 {
     public struct Directions
@@ -34,7 +36,10 @@ public class Tile : MonoBehaviour
     public int col;
     public Directions directions;
     GameObject game;
-
+    public Vector3 GetTilePosition()
+    {
+        return this.transform.position;
+    }
     /**
         initializes the tile state, giving it a random fruit sprite and 
         setting it's neighbors
@@ -56,6 +61,7 @@ public class Tile : MonoBehaviour
             this.transform.position.x * sprite.bounds.size.x,
             this.transform.position.y * sprite.bounds.size.y
         );
+        // this.transform.DOMoveX(100, 1);
     }
 
     /**
@@ -93,6 +99,8 @@ public class Tile : MonoBehaviour
 */
     public bool testNeighbor(int targetRow, int targetCol)
     {
+        Debug.Log($"targetCoords:{targetRow}-{targetCol}");
+        Debug.Log($"{this.directions}");
         // fail fast, cannot be the same tile
         if (this.row == targetRow && this.col == targetCol)
         {
@@ -100,7 +108,7 @@ public class Tile : MonoBehaviour
         }
 
         //since we have tested that the tile is NOT the same tile, we can now test
-        //that the row or column is either of the associated cardinal directions
+        //that the row or column is any of the associated cardinal directions
         bool inVertRange = (
             (targetCol == this.directions.south)
             || (targetCol == this.directions.north)
@@ -111,7 +119,14 @@ public class Tile : MonoBehaviour
             || (targetRow == this.directions.east)
         );
 
+        //If both cases are true, it's a corner, which is an invalid move
+        if (inVertRange && inHorizRange) return false;
         return inVertRange || inHorizRange;
 
+    }
+
+    private void RunScoreAnimation()
+    {
+        //TODO: Implement this, get the tiles to wiggle and then delete
     }
 }

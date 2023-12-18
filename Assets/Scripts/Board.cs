@@ -38,9 +38,9 @@ public class Board : MonoBehaviour
                 // Debug.Log("board state" + board[i, j]);
             }
         }
-        board[0, 0].GetComponent<SpriteRenderer>().color = Color.blue;
-        board[boardSize - 1, 0].GetComponent<SpriteRenderer>().color = Color.green;
-        board[0, boardSize - 1].GetComponent<SpriteRenderer>().color = Color.red;
+        // board[0, 0].GetComponent<SpriteRenderer>().color = Color.blue;
+        // board[boardSize - 1, 0].GetComponent<SpriteRenderer>().color = Color.green;
+        // board[0, boardSize - 1].GetComponent<SpriteRenderer>().color = Color.red;
 
         //StartCoroutine(DebugBoardState(2f));
     }
@@ -155,8 +155,8 @@ public class Board : MonoBehaviour
     {
         List<List<GameObject>> neighbors = new List<List<GameObject>>
         {
-            new List<GameObject>{},
-            new List<GameObject>{}
+            new List<GameObject>(),
+            new List<GameObject>()
         };
 
         //test rows

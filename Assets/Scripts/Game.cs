@@ -5,12 +5,13 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     List<GameObject> selectedTiles = new List<GameObject>();
+    //TODO: Update this so we instantiate the board here rather than in the GUI
     public GameObject board;
     public void addClickedTile(GameObject tile)
     {
         selectedTiles.Add(tile);
 
-        Debug.Log("selectedTiles Count: " + selectedTiles.Count);
+        // Debug.Log("selectedTiles Count: " + selectedTiles.Count);
 
         if (selectedTiles.Count == 2)
         {
@@ -35,6 +36,7 @@ public class Game : MonoBehaviour
         {
             //swap tiles
             this.board.GetComponent<Board>().swapTiles(tileOne, tileTwo);
+            this.board.GetComponent<Board>().checkForMatches();
         };
         //Done with checks, clear the selected tiles
     }
