@@ -20,7 +20,7 @@ public class Board : MonoBehaviour
         {
             for (int col = 0; col < boardSize; col++)
             {
-                Vector3 startingPos = new Vector3(row, col, 0);
+                Vector3 startingPos = new Vector3(col, row, 0);
                 GameObject newTile = Instantiate(
                     tile,
                     startingPos,
@@ -63,19 +63,24 @@ public class Board : MonoBehaviour
         Tile tileOneComp = tileOne.GetComponent<Tile>();
         Tile tileTwoComp = tileTwo.GetComponent<Tile>();
 
-        // Debug.Log(string.Format("tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
-        // Debug.Log(string.Format("tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
+
+        Debug.Log(string.Format("tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
+        Debug.Log(string.Format("tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
 
         //update tiles
         (tileOneComp.row, tileTwoComp.row) = (tileTwoComp.row, tileOneComp.row);
         (tileOneComp.col, tileTwoComp.col) = (tileTwoComp.col, tileOneComp.col);
 
+        tileOneComp.updateDirections(tileOneComp.row, tileOneComp.col);
+        tileTwoComp.updateDirections(tileTwoComp.row, tileTwoComp.col);
+
+        Debug.Log(string.Format("Post Swap tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
+        Debug.Log(string.Format("Post Swap tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
+
         //update board state
         this.board[tileOneComp.row, tileOneComp.col] = tileOne;
         this.board[tileTwoComp.row, tileTwoComp.col] = tileTwo;
 
-        // Debug.Log(string.Format("Post Swap tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
-        // Debug.Log(string.Format("Post Swap tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
     }
 
     /** Controller function to check for tiles matches on 3 or more in horizontal 

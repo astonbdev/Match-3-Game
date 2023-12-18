@@ -6,16 +6,6 @@ public class Game : MonoBehaviour
 {
     List<GameObject> selectedTiles = new List<GameObject>();
     public GameObject board;
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void addClickedTile(GameObject tile)
     {
         selectedTiles.Add(tile);
@@ -32,20 +22,20 @@ public class Game : MonoBehaviour
 
     void testClickedTiles()
     {
-        Debug.Log("testClickedTiles");
+        // Debug.Log("testClickedTiles");
         GameObject tileOne = selectedTiles[0];
         GameObject tileTwo = selectedTiles[1];
+
 
         Tile tileOneComp = selectedTiles[0].GetComponent<Tile>();
         Tile tileTwoComp = selectedTiles[1].GetComponent<Tile>();
 
+        //Check that the tiles are adjacent in a cardinal direction
         if (tileOneComp.testNeighbor(tileTwoComp.row, tileTwoComp.col))
         {
-            tileOneComp.updateDirections(tileTwoComp.row, tileTwoComp.col);
-            tileTwoComp.updateDirections(tileOneComp.row, tileOneComp.col);
-
+            //swap tiles
             this.board.GetComponent<Board>().swapTiles(tileOne, tileTwo);
-            // this.board.GetComponent<Board>().checkForMatches();
         };
+        //Done with checks, clear the selected tiles
     }
 }

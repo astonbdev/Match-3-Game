@@ -41,7 +41,7 @@ public class Tile : MonoBehaviour
 */
     public void initializeTile(int row, int col)
     {
-        Debug.Log("initializeTile" + " " + row + col);
+        // Debug.Log("initializeTile" + " " + row + col);
         this.row = row;
         this.col = col;
         this.directions = new Directions(this.row, this.col);
@@ -58,6 +58,10 @@ public class Tile : MonoBehaviour
         );
     }
 
+    /**
+        Updates the directions of the current tile and the corresponding row
+        and col.
+    */
     public void updateDirections(int row, int col)
     {
         this.directions = new Directions(row, col);
@@ -73,10 +77,14 @@ public class Tile : MonoBehaviour
     }
 
 
+    /** 
+        On mouse down, passes this gameObject instance to the Game class for
+        processing
+    */
     void OnMouseDown()
     {
         Debug.Log("Clicked");
-        Debug.Log($"{directions}");
+        Debug.Log($"row:{row} col:{col}");
         game.GetComponent<Game>().addClickedTile(this.gameObject);
     }
 
