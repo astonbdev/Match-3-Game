@@ -106,6 +106,7 @@ public class Board : MonoBehaviour
         {
             // Debug.Log("Tile Value: " + tile.GetComponent<Tile>().value);
             tile.GetComponent<SpriteRenderer>().color = Color.blue;
+            tile.GetComponent<Tile>().RunScoreAnimation();
         }
 
         // Debug.Log("MatchedTiles Length: " + matchedTiles.Count);

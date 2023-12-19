@@ -35,6 +35,11 @@ public class Tile : MonoBehaviour
     public int row;
     public int col;
     public Directions directions;
+
+    private Tween rotateLeft;
+    private Tween rotateMiddle;
+    private Tween rotateRight;
+    private Sequence deathWiggle;
     GameObject game;
     public Vector3 GetTilePosition()
     {
@@ -49,6 +54,9 @@ public class Tile : MonoBehaviour
         // Debug.Log("initializeTile" + " " + row + col);
         this.row = row;
         this.col = col;
+
+
+
         this.directions = new Directions(this.row, this.col);
 
         game = GameObject.Find("Game");
@@ -61,7 +69,7 @@ public class Tile : MonoBehaviour
             this.transform.position.x * sprite.bounds.size.x,
             this.transform.position.y * sprite.bounds.size.y
         );
-        // this.transform.DOMoveX(100, 1);
+        // this.transform.DORotate(new Vector3(0, 0, 180), 5);
     }
 
     /**
@@ -125,8 +133,22 @@ public class Tile : MonoBehaviour
 
     }
 
-    private void RunScoreAnimation()
+    //WIP
+    public void RunScoreAnimation()
     {
+        float animTime = .175f;
+        this.rotateLeft = this.transform.DORotate(new Vector3(0, 0, -45), animTime);
+        this.rotateMiddle = this.transform.DORotate(new Vector3(0, 0, 0), animTime);
+        this.rotateRight = this.transform.DORotate(new Vector3(0, 0, 45), animTime);
+        Sequence wiggleSequence = DOTween.Sequence();
+        wiggleSequence.Append(this.rotateRight);
+        wiggleSequence.Append(this.rotateMiddle);
+        wiggleSequence.Append(this.rotateLeft);
+        wiggleSequence.Append(this.transform.DORotate(new Vector3(0, 0, 0), animTime));
+
+        wiggleSequence.SetLoops(2, LoopType.Restart);
+
+
         //TODO: Implement this, get the tiles to wiggle and then delete
     }
 }
