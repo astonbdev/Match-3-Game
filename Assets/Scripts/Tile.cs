@@ -65,7 +65,6 @@ public class Tile : MonoBehaviour
             this.transform.position.x * sprite.bounds.size.x,
             this.transform.position.y * sprite.bounds.size.y
         );
-        // this.transform.DORotate(new Vector3(0, 0, 180), 5);
     }
 
     /**
@@ -93,8 +92,6 @@ public class Tile : MonoBehaviour
     */
     void OnMouseDown()
     {
-        Debug.Log("Clicked");
-        Debug.Log($"row:{row} col:{col}");
         game.GetComponent<Game>().addClickedTile(this.gameObject);
     }
 
@@ -103,8 +100,6 @@ public class Tile : MonoBehaviour
 */
     public bool testNeighbor(int targetRow, int targetCol)
     {
-        Debug.Log($"targetCoords:{targetRow}-{targetCol}");
-        Debug.Log($"{this.directions}");
         // fail fast, cannot be the same tile
         if (this.row == targetRow && this.col == targetCol)
         {
@@ -153,9 +148,6 @@ public class Tile : MonoBehaviour
         }
 
         wiggleSequence.SetLoops(2, LoopType.Restart);
-
-
-        //TODO: Implement this, get the tiles to wiggle and then delete
     }
 
     private void removeTile()
