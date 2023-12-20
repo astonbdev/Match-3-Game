@@ -105,7 +105,7 @@ public class Board : MonoBehaviour
         foreach (GameObject tile in matchedTiles)
         {
             // Debug.Log("Tile Value: " + tile.GetComponent<Tile>().value);
-            tile.GetComponent<SpriteRenderer>().color = Color.blue;
+            // tile.GetComponent<SpriteRenderer>().color = Color.blue;
             tile.GetComponent<Tile>().RunScoreAnimation();
         }
 
