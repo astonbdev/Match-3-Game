@@ -71,8 +71,8 @@ public class Tile : MonoBehaviour
 
         SpriteRenderer sprite = this.gameObject.GetComponent<SpriteRenderer>();
         this.transform.position = new Vector3(
-            this.transform.position.x * sprite.bounds.size.x,
-            this.transform.position.y * sprite.bounds.size.y
+            col * sprite.bounds.size.x,
+            row * sprite.bounds.size.y
         );
     }
 
@@ -173,11 +173,9 @@ public class Tile : MonoBehaviour
     private static void GenerateFillTile(int row, int col)
     {
         Board gameBoard = GameObject.Find("Board").GetComponent<Board>();
-        Vector3 startingPos = new Vector3(col, row, 0);
 
         GameObject tile = (GameObject)Resources.Load("prefabs/Tile", typeof(GameObject));
-        gameBoard.board[row, col] = Instantiate(tile, startingPos, Quaternion.identity);
-        gameBoard.board[row, col].transform.position = startingPos;
+        gameBoard.board[row, col] = Instantiate(tile);
         tile.GetComponent<Tile>().initializeTile(row, col);
     }
 }
