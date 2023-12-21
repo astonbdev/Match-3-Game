@@ -7,6 +7,12 @@ public class Game : MonoBehaviour
     List<GameObject> selectedTiles = new List<GameObject>();
     //TODO: Update this so we instantiate the board here rather than in the GUI
     public GameObject board;
+    public int score = 0
+
+    public void ScoreTile()
+    {
+        score += 10;
+    }
     public void addClickedTile(GameObject tile)
     {
         selectedTiles.Add(tile);

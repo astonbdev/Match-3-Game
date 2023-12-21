@@ -47,17 +47,13 @@ public class Tile : MonoBehaviour
 */
     public void initializeTile(int row, int col)
     {
-        // Debug.Log("initializeTile" + " " + row + col);
         this.row = row;
         this.col = col;
-
-
-
         this.directions = new Directions(this.row, this.col);
+        this.value = Random.Range(1, 4);
 
         game = GameObject.Find("Game");
 
-        this.value = Random.Range(1, 4);
         addSprite(this.value);
 
         SpriteRenderer sprite = this.gameObject.GetComponent<SpriteRenderer>();
@@ -97,7 +93,7 @@ public class Tile : MonoBehaviour
 
     /** returns bool if given coords are neighboring this tile horizontally or 
     *   vertically
-*/
+    */
     public bool testNeighbor(int targetRow, int targetCol)
     {
         // fail fast, cannot be the same tile

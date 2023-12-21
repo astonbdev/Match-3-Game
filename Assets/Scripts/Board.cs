@@ -8,7 +8,7 @@ public class Board : MonoBehaviour
     public GameObject[,] board;
     public int boardSize = 6;
 
-    /** 
+    /**
         Renders the intial board state
     */
     void Start()
@@ -24,11 +24,7 @@ public class Board : MonoBehaviour
             for (int col = 0; col < boardSize; col++)
             {
                 Vector3 startingPos = new Vector3(col, row, 0);
-                GameObject newTile = Instantiate(
-                    tile,
-                    startingPos,
-                    Quaternion.identity
-                );
+                GameObject newTile = Instantiate(tile, startingPos, Quaternion.identity);
 
                 Tile tileComponent = newTile.GetComponent<Tile>();
 
@@ -54,6 +50,7 @@ public class Board : MonoBehaviour
 
         this.checkForMatches();
     }
+
     //Swaps two passed tiles positions, reallocates neighbors
     public void swapTiles(GameObject tileOne, GameObject tileTwo)
     {
@@ -65,7 +62,6 @@ public class Board : MonoBehaviour
 
         Tile tileOneComp = tileOne.GetComponent<Tile>();
         Tile tileTwoComp = tileTwo.GetComponent<Tile>();
-
 
         // Debug.Log(string.Format("tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
         // Debug.Log(string.Format("tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
@@ -83,10 +79,9 @@ public class Board : MonoBehaviour
         //update board state
         this.board[tileOneComp.row, tileOneComp.col] = tileOne;
         this.board[tileTwoComp.row, tileTwoComp.col] = tileTwo;
-
     }
 
-    /** Controller function to check for tiles matches on 3 or more in horizontal 
+    /** Controller function to check for tiles matches on 3 or more in horizontal
         and vertical directions
     */
     public void checkForMatches()
@@ -107,6 +102,7 @@ public class Board : MonoBehaviour
             // Debug.Log("Tile Value: " + tile.GetComponent<Tile>().value);
             // tile.GetComponent<SpriteRenderer>().color = Color.blue;
             tile.GetComponent<Tile>().RunScoreAnimation();
+            game.GetComponent<Game>().ScoreTile();
         }
 
         // Debug.Log("MatchedTiles Length: " + matchedTiles.Count);
@@ -149,7 +145,7 @@ public class Board : MonoBehaviour
 
     /**
         takes int row and col,
-        returns List of neighbors up to 2 spaces away to the right and above the 
+        returns List of neighbors up to 2 spaces away to the right and above the
         current tile
     */
     private List<List<GameObject>> getTileNeighbors(int row, int col)
@@ -174,7 +170,6 @@ public class Board : MonoBehaviour
         if (!(col + 1 >= boardSize))
         {
             neighbors[1].Add(board[row, col + 1]);
-
         }
         if (!(col + 2 >= boardSize))
         {
