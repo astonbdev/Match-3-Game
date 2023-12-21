@@ -5,15 +5,17 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     List<GameObject> selectedTiles = new List<GameObject>();
+
     //TODO: Update this so we instantiate the board here rather than in the GUI
     public GameObject board;
-    public int score = 0
+    public int Score = 0;
 
     public void ScoreTile()
     {
-        score += 10;
+        Score += 10;
     }
-    public void addClickedTile(GameObject tile)
+
+    public void AddClickedTile(GameObject tile)
     {
         selectedTiles.Add(tile);
 
@@ -26,13 +28,11 @@ public class Game : MonoBehaviour
         }
     }
 
-
-    void testClickedTiles()
+    private void testClickedTiles()
     {
         // Debug.Log("testClickedTiles");
         GameObject tileOne = selectedTiles[0];
         GameObject tileTwo = selectedTiles[1];
-
 
         Tile tileOneComp = selectedTiles[0].GetComponent<Tile>();
         Tile tileTwoComp = selectedTiles[1].GetComponent<Tile>();
@@ -43,7 +43,8 @@ public class Game : MonoBehaviour
             //swap tiles
             this.board.GetComponent<Board>().swapTiles(tileOne, tileTwo);
             this.board.GetComponent<Board>().checkForMatches();
-        };
+        }
+        ;
         //Done with checks, clear the selected tiles
     }
 }

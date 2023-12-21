@@ -7,6 +7,7 @@ public class Board : MonoBehaviour
     // Start is called before the first frame update
     public GameObject[,] board;
     public int boardSize = 6;
+    private GameObject game;
 
     /**
         Renders the intial board state
@@ -14,6 +15,7 @@ public class Board : MonoBehaviour
     void Start()
     {
         board = new GameObject[boardSize, boardSize];
+        game = GameObject.Find("Game");
 
         GameObject tile = (GameObject)Resources.Load("prefabs/Tile", typeof(GameObject));
 
@@ -92,6 +94,8 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < boardSize; j++)
             {
+                if (board[i, j] == null)
+                    continue;
                 List<GameObject> matchingTiles = this.checkNeighbors(i, j);
                 matchedTiles.UnionWith(matchingTiles);
             }
@@ -104,6 +108,8 @@ public class Board : MonoBehaviour
             tile.GetComponent<Tile>().RunScoreAnimation();
             game.GetComponent<Game>().ScoreTile();
         }
+
+        matchedTiles.Clear();
 
         // Debug.Log("MatchedTiles Length: " + matchedTiles.Count);
     }
@@ -157,21 +163,21 @@ public class Board : MonoBehaviour
         };
 
         //test rows
-        if (!(row + 1 >= boardSize))
+        if (!(row + 1 >= boardSize) && (board[row + 1, col] != null))
         {
             neighbors[0].Add(board[row + 1, col]);
         }
-        if (!(row + 2 >= boardSize))
+        if (!(row + 2 >= boardSize) && (board[row + 2, col] != null))
         {
             neighbors[0].Add(board[row + 2, col]);
         }
 
         //test cols
-        if (!(col + 1 >= boardSize))
+        if (!(col + 1 >= boardSize) && (board[row, col + 1] != null))
         {
             neighbors[1].Add(board[row, col + 1]);
         }
-        if (!(col + 2 >= boardSize))
+        if (!(col + 2 >= boardSize) && (board[row, col + 2] != null))
         {
             neighbors[1].Add(board[row, col + 2]);
         }

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Android;
-using DG.Tweening;
+
 //TODO: This should probably just be a presentational component. The core logic
 //ought to live as a multidimentional array in game, and let game handle swapping
 //these presentational game pieces. Too much abstraction about the tile into
@@ -16,6 +17,7 @@ public class Tile : MonoBehaviour
         public int south;
         public int east;
         public int west;
+
         public Directions(int row, int col)
         {
             north = col + 1;
@@ -24,12 +26,14 @@ public class Tile : MonoBehaviour
             west = row - 1;
         }
 
-        public override string ToString() => $@"
+        public override string ToString() =>
+            $@"
             north: {north}
             south: {south}
             east: {east}
             west: {west}";
     }
+
     public Sprite sprite; // tile(Tile).direcrtions
     public int value;
     public int row;
@@ -37,12 +41,14 @@ public class Tile : MonoBehaviour
     public Directions directions;
 
     GameObject game;
+
     public Vector3 GetTilePosition()
     {
         return this.transform.position;
     }
+
     /**
-        initializes the tile state, giving it a random fruit sprite and 
+        initializes the tile state, giving it a random fruit sprite and
         setting it's neighbors
 */
     public void initializeTile(int row, int col)
@@ -81,17 +87,16 @@ public class Tile : MonoBehaviour
         this.gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite;
     }
 
-
-    /** 
+    /**
         On mouse down, passes this gameObject instance to the Game class for
         processing
     */
     void OnMouseDown()
     {
-        game.GetComponent<Game>().addClickedTile(this.gameObject);
+        game.GetComponent<Game>().AddClickedTile(this.gameObject);
     }
 
-    /** returns bool if given coords are neighboring this tile horizontally or 
+    /** returns bool if given coords are neighboring this tile horizontally or
     *   vertically
     */
     public bool testNeighbor(int targetRow, int targetCol)
@@ -105,19 +110,17 @@ public class Tile : MonoBehaviour
         //since we have tested that the tile is NOT the same tile, we can now test
         //that the row or column is any of the associated cardinal directions
         bool inVertRange = (
-            (targetCol == this.directions.south)
-            || (targetCol == this.directions.north)
+            (targetCol == this.directions.south) || (targetCol == this.directions.north)
         );
 
         bool inHorizRange = (
-            (targetRow == this.directions.west)
-            || (targetRow == this.directions.east)
+            (targetRow == this.directions.west) || (targetRow == this.directions.east)
         );
 
         //If both cases are true, it's a corner, which is an invalid move
-        if (inVertRange && inHorizRange) return false;
+        if (inVertRange && inHorizRange)
+            return false;
         return inVertRange || inHorizRange;
-
     }
 
     /**
@@ -127,13 +130,13 @@ public class Tile : MonoBehaviour
     {
         float animTime = .175f;
 
-        Tween[] tweens = {
+        Tween[] tweens =
+        {
             this.transform.DORotate(new Vector3(0, 0, -45), animTime),
             this.transform.DORotate(new Vector3(0, 0, 0), animTime),
             this.transform.DORotate(new Vector3(0, 0, 45), animTime),
             this.transform.DORotate(new Vector3(0, 0, 0), animTime)
         };
-
 
         Sequence wiggleSequence = DOTween.Sequence();
         wiggleSequence.OnComplete(removeTile);
