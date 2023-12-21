@@ -97,7 +97,7 @@ public class Board : MonoBehaviour
             game.GetComponent<Game>().ScoreTile();
         }
 
-        matchedTiles.Clear();
+        // matchedTiles.Clear();
     }
 
     /**

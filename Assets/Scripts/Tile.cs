@@ -162,7 +162,7 @@ public class Tile : MonoBehaviour
     */
     private void removeAndFillTile()
     {
-        Tile.GenerateFillTile(this.row, this.col);
+        GenerateFillTile(this.row, this.col);
         Destroy(gameObject);
     }
 
@@ -175,7 +175,8 @@ public class Tile : MonoBehaviour
         Board gameBoard = GameObject.Find("Board").GetComponent<Board>();
 
         GameObject tile = (GameObject)Resources.Load("prefabs/Tile", typeof(GameObject));
-        gameBoard.board[row, col] = Instantiate(tile);
+        tile = Instantiate(tile);
         tile.GetComponent<Tile>().initializeTile(row, col);
+        //TODO: Add to the gameBoard
     }
 }
