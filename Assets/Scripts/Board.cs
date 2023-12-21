@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    // Start is called before the first frame update
     public GameObject[,] board;
     public int boardSize = 6;
+    public float tileFillOffset = 0;
     private GameObject game;
 
     /**
@@ -30,17 +32,10 @@ public class Board : MonoBehaviour
 
                 Tile tileComponent = newTile.GetComponent<Tile>();
 
-                //tileComponent.addSprite(Random.Range(1, 1));
                 tileComponent.initializeTile(row, col);
                 board[row, col] = newTile;
-                // Debug.Log("board state" + board[i, j]);
             }
         }
-        // board[0, 0].GetComponent<SpriteRenderer>().color = Color.blue;
-        // board[boardSize - 1, 0].GetComponent<SpriteRenderer>().color = Color.green;
-        // board[0, boardSize - 1].GetComponent<SpriteRenderer>().color = Color.red;
-
-        //StartCoroutine(DebugBoardState(2f));
     }
 
     /**
@@ -65,18 +60,12 @@ public class Board : MonoBehaviour
         Tile tileOneComp = tileOne.GetComponent<Tile>();
         Tile tileTwoComp = tileTwo.GetComponent<Tile>();
 
-        // Debug.Log(string.Format("tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
-        // Debug.Log(string.Format("tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
-
         //update tiles
         (tileOneComp.row, tileTwoComp.row) = (tileTwoComp.row, tileOneComp.row);
         (tileOneComp.col, tileTwoComp.col) = (tileTwoComp.col, tileOneComp.col);
 
         tileOneComp.updateDirections(tileOneComp.row, tileOneComp.col);
         tileTwoComp.updateDirections(tileTwoComp.row, tileTwoComp.col);
-
-        // Debug.Log(string.Format("Post Swap tileOne coords: {0} {1}", tileOneComp.row, tileOneComp.col));
-        // Debug.Log(string.Format("Post Swap tileTwo coords: {0} {1}", tileTwoComp.row, tileTwoComp.col));
 
         //update board state
         this.board[tileOneComp.row, tileOneComp.col] = tileOne;
@@ -101,17 +90,14 @@ public class Board : MonoBehaviour
             }
         }
 
+        //animate the tiles, score them, and then repopulate the board
         foreach (GameObject tile in matchedTiles)
         {
-            // Debug.Log("Tile Value: " + tile.GetComponent<Tile>().value);
-            // tile.GetComponent<SpriteRenderer>().color = Color.blue;
             tile.GetComponent<Tile>().RunScoreAnimation();
             game.GetComponent<Game>().ScoreTile();
         }
 
         matchedTiles.Clear();
-
-        // Debug.Log("MatchedTiles Length: " + matchedTiles.Count);
     }
 
     /**
@@ -184,4 +170,19 @@ public class Board : MonoBehaviour
 
         return neighbors;
     }
+
+    //FIXME: I want to keep this code for future reference, but it's unnecessary because I can just
+    //create a lambda statement as a callback in the tile itself after the death animation runs
+    // private Action GetTileFillCallback(int row, int col)
+    // {
+    //     return () =>
+    //     {
+    //         float offset = this.boardSize;
+    //         Vector3 startingPos = new Vector3(col + offset, row + offset, 0);
+    //         GameObject tile = (GameObject)Resources.Load("prefabs/Tile", typeof(GameObject));
+    //         tile.GetComponent<Tile>().initializeTile(row, col);
+
+    //         this.board[row, col] = Instantiate(tile, startingPos, Quaternion.identity);
+    //     };
+    // }
 }

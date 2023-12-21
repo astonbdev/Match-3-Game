@@ -1,5 +1,8 @@
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.NetworkInformation;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Android;
@@ -55,12 +58,16 @@ public class Tile : MonoBehaviour
     {
         this.row = row;
         this.col = col;
+        Debug.Log(col + "=" + row);
+
         this.directions = new Directions(this.row, this.col);
         this.value = Random.Range(1, 4);
 
         game = GameObject.Find("Game");
 
         addSprite(this.value);
+
+        Debug.Log("new tile position: " + this.transform.position);
 
         SpriteRenderer sprite = this.gameObject.GetComponent<SpriteRenderer>();
         this.transform.position = new Vector3(
@@ -139,7 +146,7 @@ public class Tile : MonoBehaviour
         };
 
         Sequence wiggleSequence = DOTween.Sequence();
-        wiggleSequence.OnComplete(removeTile);
+        wiggleSequence.OnComplete(removeAndFillTile);
 
         foreach (Tween tween in tweens)
         {
@@ -149,8 +156,28 @@ public class Tile : MonoBehaviour
         wiggleSequence.SetLoops(2, LoopType.Restart);
     }
 
-    private void removeTile()
+    /**
+        Controller callback that destroys the current tile and recreates a new tile
+        for the game board
+    */
+    private void removeAndFillTile()
     {
+        Tile.GenerateFillTile(this.row, this.col);
         Destroy(gameObject);
+    }
+
+    /**
+        generates a new tile for the gameboard, then removes the current tile
+        from the scene
+    */
+    private static void GenerateFillTile(int row, int col)
+    {
+        Board gameBoard = GameObject.Find("Board").GetComponent<Board>();
+        Vector3 startingPos = new Vector3(col, row, 0);
+
+        GameObject tile = (GameObject)Resources.Load("prefabs/Tile", typeof(GameObject));
+        gameBoard.board[row, col] = Instantiate(tile, startingPos, Quaternion.identity);
+        gameBoard.board[row, col].transform.position = startingPos;
+        tile.GetComponent<Tile>().initializeTile(row, col);
     }
 }
