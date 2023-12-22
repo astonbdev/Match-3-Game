@@ -174,9 +174,10 @@ public class Tile : MonoBehaviour
     {
         Board gameBoard = GameObject.Find("Board").GetComponent<Board>();
 
+        //Load the prefab, Instantiate it and then intialize and add it to the in-memory board.
         GameObject tile = (GameObject)Resources.Load("prefabs/Tile", typeof(GameObject));
         tile = Instantiate(tile);
         tile.GetComponent<Tile>().initializeTile(row, col);
-        //TODO: Add to the gameBoard
+        gameBoard.board[row, col] = tile;
     }
 }
