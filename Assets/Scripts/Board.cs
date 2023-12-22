@@ -9,7 +9,12 @@ public class Board : MonoBehaviour
     public GameObject[,] board;
     public int boardSize = 6;
     public float tileFillOffset = 0;
-    private GameObject game;
+    private Game game;
+
+    // private float animTime = .175f;
+
+    //TODO: Should make this private but I just want it to work right now
+    public HashSet<GameObject> processingTiles;
 
     /**
         Renders the intial board state
@@ -17,7 +22,7 @@ public class Board : MonoBehaviour
     void Start()
     {
         board = new GameObject[boardSize, boardSize];
-        game = GameObject.Find("Game");
+        game = GameObject.Find("Game").GetComponent<Game>();
 
         GameObject tile = (GameObject)Resources.Load("prefabs/Tile", typeof(GameObject));
 
@@ -72,11 +77,13 @@ public class Board : MonoBehaviour
         this.board[tileTwoComp.row, tileTwoComp.col] = tileTwo;
     }
 
-    /** Controller function to check for tiles matches on 3 or more in horizontal
+    /**
+        Controller function to check for tiles matches on 3 or more in horizontal
         and vertical directions
     */
     public void checkForMatches()
     {
+        game.processing = true;
         HashSet<GameObject> matchedTiles = new HashSet<GameObject>();
 
         for (int i = 0; i < boardSize; i++)
@@ -90,13 +97,16 @@ public class Board : MonoBehaviour
             }
         }
 
+        this.processingTiles = matchedTiles;
         //animate the tiles, score them, and then repopulate the board
         foreach (GameObject tile in matchedTiles)
         {
             tile.GetComponent<Tile>().RunScoreAnimation();
-            game.GetComponent<Game>().ScoreTile();
+            game.ScoreTile();
         }
-        // matchedTiles.Clear();
+
+        Debug.Log("Done with processing scored tiles");
+        StartCoroutine(this._waitThenCheckMatches());
     }
 
     /**
@@ -168,6 +178,19 @@ public class Board : MonoBehaviour
         }
 
         return neighbors;
+    }
+
+    private IEnumerator _waitThenCheckMatches()
+    {
+        while (game.processing)
+        {
+            yield return new WaitForSeconds(.5f);
+            if (this.processingTiles.Count == 0)
+            {
+                game.processing = false;
+            }
+        }
+        this.checkForMatches();
     }
 
     //FIXME: I want to keep this code for future reference, but it's unnecessary because I can just

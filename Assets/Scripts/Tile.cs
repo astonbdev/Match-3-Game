@@ -43,6 +43,8 @@ public class Tile : MonoBehaviour
     public int col;
     public Directions directions;
 
+    private float animTime = .175f;
+
     GameObject game;
 
     public Vector3 GetTilePosition()
@@ -61,7 +63,7 @@ public class Tile : MonoBehaviour
         Debug.Log(col + "=" + row);
 
         this.directions = new Directions(this.row, this.col);
-        this.value = Random.Range(1, 4);
+        this.value = Random.Range(1, 5);
 
         game = GameObject.Find("Game");
 
@@ -135,14 +137,12 @@ public class Tile : MonoBehaviour
     */
     public void RunScoreAnimation()
     {
-        float animTime = .175f;
-
         Tween[] tweens =
         {
-            this.transform.DORotate(new Vector3(0, 0, -45), animTime),
-            this.transform.DORotate(new Vector3(0, 0, 0), animTime),
-            this.transform.DORotate(new Vector3(0, 0, 45), animTime),
-            this.transform.DORotate(new Vector3(0, 0, 0), animTime)
+            this.transform.DORotate(new Vector3(0, 0, -45), this.animTime),
+            this.transform.DORotate(new Vector3(0, 0, 0), this.animTime),
+            this.transform.DORotate(new Vector3(0, 0, 45), this.animTime),
+            this.transform.DORotate(new Vector3(0, 0, 0), this.animTime)
         };
 
         Sequence wiggleSequence = DOTween.Sequence();
@@ -162,7 +162,9 @@ public class Tile : MonoBehaviour
     */
     private void removeAndFillTile()
     {
+        Board board = GameObject.Find("Board").GetComponent<Board>();
         GenerateFillTile(this.row, this.col);
+        board.processingTiles.Remove(this.gameObject);
         Destroy(gameObject);
     }
 

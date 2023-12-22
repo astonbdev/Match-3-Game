@@ -8,6 +8,9 @@ public class Game : MonoBehaviour
 
     //TODO: Update this so we instantiate the board here rather than in the GUI
     public GameObject board;
+
+    //TODO: Turn this into a getter setter
+    public bool processing = false;
     public int Score = 0;
 
     public void ScoreTile()
