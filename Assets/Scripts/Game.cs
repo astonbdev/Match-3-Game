@@ -20,6 +20,9 @@ public class Game : MonoBehaviour
 
     public void AddClickedTile(GameObject tile)
     {
+        if (processing)
+            return;
+
         selectedTiles.Add(tile);
 
         // Debug.Log("selectedTiles Count: " + selectedTiles.Count);

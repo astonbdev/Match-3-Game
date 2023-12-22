@@ -98,6 +98,14 @@ public class Board : MonoBehaviour
         }
 
         this.processingTiles = matchedTiles;
+
+        //ensure their are no matching tiles before
+        if (matchedTiles.Count == 0)
+        {
+            this.game.processing = false;
+            return;
+        }
+
         //animate the tiles, score them, and then repopulate the board
         foreach (GameObject tile in matchedTiles)
         {
