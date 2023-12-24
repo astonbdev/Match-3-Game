@@ -4,26 +4,34 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    List<GameObject> selectedTiles = new List<GameObject>();
+    List<Tile> selectedTiles = new List<Tile>();
 
     //TODO: Update this so we instantiate the board here rather than in the GUI
-    public GameObject board;
+    public Board board;
 
     //TODO: Turn this into a getter setter
     public bool processing = false;
     public int Score = 0;
+
+    public void Start()
+    {
+        this.board = GameObject.Find("Board").GetComponent<Board>();
+    }
 
     public void ScoreTile()
     {
         Score += 10;
     }
 
+    /**
+        Adds selected tiles to the tile tracker for controlling game inputs
+    */
     public void AddClickedTile(GameObject tile)
     {
         if (processing)
             return;
 
-        selectedTiles.Add(tile);
+        selectedTiles.Add(tile.GetComponent<Tile>());
 
         // Debug.Log("selectedTiles Count: " + selectedTiles.Count);
 
@@ -36,21 +44,18 @@ public class Game : MonoBehaviour
 
     private void testClickedTiles()
     {
-        // Debug.Log("testClickedTiles");
-        GameObject tileOne = selectedTiles[0];
-        GameObject tileTwo = selectedTiles[1];
-
-        Tile tileOneComp = selectedTiles[0].GetComponent<Tile>();
-        Tile tileTwoComp = selectedTiles[1].GetComponent<Tile>();
+        Tile tileOneComp = selectedTiles[0];
+        Tile tileTwoComp = selectedTiles[1];
 
         //Check that the tiles are adjacent in a cardinal direction
         if (tileOneComp.testNeighbor(tileTwoComp.row, tileTwoComp.col))
         {
             //swap tiles
-            this.board.GetComponent<Board>().swapTiles(tileOne, tileTwo);
-            this.board.GetComponent<Board>().checkForMatches();
+            this.board.swapTiles(tileOne, tileTwo);
+            this.board.checkForMatches();
         }
         ;
+
         //Done with checks, clear the selected tiles
     }
 }
