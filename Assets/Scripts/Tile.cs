@@ -37,25 +37,18 @@ public class Tile : MonoBehaviour
             west: {west}";
     }
 
-    public Sprite sprite; // tile(Tile).direcrtions
     public int value;
     public int row;
     public int col;
     public Directions directions;
 
+    public Sprite sprite; // tile(Tile).direcrtions
     private float animTime = .175f;
-
-    GameObject game;
-
-    public Vector3 GetTilePosition()
-    {
-        return this.transform.position;
-    }
 
     /**
         initializes the tile state, giving it a random fruit sprite and
         setting it's neighbors
-*/
+    */
     public void initializeTile(int row, int col)
     {
         this.row = row;
