@@ -83,8 +83,8 @@ public class Tile : MonoBehaviour
     }
 
     /**
-    *   retrieves sprite resource and adds it to this components SpriteRenderer
-    **/
+       retrieves sprite resource and adds it to this components SpriteRenderer
+    */
     public void addSprite(int spriteFruitIcon)
     {
         this.sprite = Resources.Load<Sprite>($"images/fruit{spriteFruitIcon}");
@@ -100,8 +100,9 @@ public class Tile : MonoBehaviour
         game.GetComponent<Game>().AddClickedTile(this.gameObject);
     }
 
-    /** returns bool if given coords are neighboring this tile horizontally or
-    *   vertically
+    /**
+        returns bool if given coords are neighboring this tile
+        horizontally or vertically
     */
     public bool testNeighbor(int targetRow, int targetCol)
     {
