@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    List<Tile> selectedTiles = new List<Tile>();
-
-    //TODO: Update this so we instantiate the board here rather than in the GUI
     public Board board;
+    public int Score = 0;
 
     //TODO: Turn this into a getter setter
     public bool processing = false;
-    public int Score = 0;
+    List<Tile> selectedTiles = new List<Tile>();
 
     public void Start()
     {
@@ -42,6 +40,10 @@ public class Game : MonoBehaviour
         }
     }
 
+    /**
+        Tests for valid tile selection. If valid, swaps tiles and then
+        checks for matches on the board.
+    */
     private void testClickedTiles()
     {
         Tile tileOneComp = selectedTiles[0];
