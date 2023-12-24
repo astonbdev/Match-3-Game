@@ -122,6 +122,7 @@ public class Tile : MonoBehaviour
         //If both cases are true, it's a corner, which is an invalid move
         if (inVertRange && inHorizRange)
             return false;
+
         return inVertRange || inHorizRange;
     }
 
@@ -156,7 +157,7 @@ public class Tile : MonoBehaviour
     private void removeAndFillTile()
     {
         Board board = GameObject.Find("Board").GetComponent<Board>();
-        GenerateFillTile(this.row, this.col);
+        this.GenerateFillTile(this.row, this.col);
         board.processingTiles.Remove(this.gameObject);
         Destroy(gameObject);
     }
