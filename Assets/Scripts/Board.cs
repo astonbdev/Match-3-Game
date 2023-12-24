@@ -124,6 +124,8 @@ public class Board : MonoBehaviour
         int currTileValue = board[row, col].GetComponent<Tile>().value;
         List<GameObject> matchingTiles = new List<GameObject>();
 
+        //grabs the vertical and horizontal neighbors, then compares their values
+        //with respect to each direction
         List<List<GameObject>> neighbors = getTileNeighbors(row, col);
 
         foreach (List<GameObject> neighborSet in neighbors)
