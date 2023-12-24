@@ -54,27 +54,24 @@ public class Board : MonoBehaviour
     }
 
     //Swaps two passed tiles positions, reallocates neighbors
-    public void swapTiles(GameObject tileOne, GameObject tileTwo)
+    public void swapTiles(Tile tileOne, Tile tileTwo)
     {
-        Vector3 tileOnePos = tileOne.transform.position;
-        Vector3 tileTwoPos = tileTwo.transform.position;
+        Vector3 tileOnePos = tileOne.gameObject.transform.position;
+        Vector3 tileTwoPos = tileTwo.gameObject.transform.position;
 
-        tileOne.transform.position = tileTwoPos;
-        tileTwo.transform.position = tileOnePos;
-
-        Tile tileOneComp = tileOne.GetComponent<Tile>();
-        Tile tileTwoComp = tileTwo.GetComponent<Tile>();
+        tileOne.gameObject.transform.position = tileTwoPos;
+        tileTwo.gameObject.transform.position = tileOnePos;
 
         //update tiles
-        (tileOneComp.row, tileTwoComp.row) = (tileTwoComp.row, tileOneComp.row);
-        (tileOneComp.col, tileTwoComp.col) = (tileTwoComp.col, tileOneComp.col);
+        (tileOne.row, tileTwo.row) = (tileTwo.row, tileOne.row);
+        (tileOne.col, tileTwo.col) = (tileTwo.col, tileOne.col);
 
-        tileOneComp.updateDirections(tileOneComp.row, tileOneComp.col);
-        tileTwoComp.updateDirections(tileTwoComp.row, tileTwoComp.col);
+        tileOne.updateDirections(tileOne.row, tileOne.col);
+        tileTwo.updateDirections(tileTwo.row, tileTwo.col);
 
         //update board state
-        this.board[tileOneComp.row, tileOneComp.col] = tileOne;
-        this.board[tileTwoComp.row, tileTwoComp.col] = tileTwo;
+        this.board[tileOne.row, tileOne.col] = tileOne.gameObject;
+        this.board[tileTwo.row, tileTwo.col] = tileTwo.gameObject;
     }
 
     /**

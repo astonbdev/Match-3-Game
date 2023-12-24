@@ -42,6 +42,8 @@ public class Tile : MonoBehaviour
     public int col;
     public Directions directions;
 
+    public GameObject game;
+
     public Sprite sprite; // tile(Tile).direcrtions
     private float animTime = .175f;
 
@@ -157,7 +159,7 @@ public class Tile : MonoBehaviour
     private void removeAndFillTile()
     {
         Board board = GameObject.Find("Board").GetComponent<Board>();
-        this.GenerateFillTile(this.row, this.col);
+        GenerateFillTile(this.row, this.col);
         board.processingTiles.Remove(this.gameObject);
         Destroy(gameObject);
     }

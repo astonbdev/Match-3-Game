@@ -46,11 +46,11 @@ public class Game : MonoBehaviour
     */
     private void testClickedTiles()
     {
-        Tile tileOneComp = selectedTiles[0];
-        Tile tileTwoComp = selectedTiles[1];
+        Tile tileOne = selectedTiles[0];
+        Tile tileTwo = selectedTiles[1];
 
         //Check that the tiles are adjacent in a cardinal direction
-        if (tileOneComp.testNeighbor(tileTwoComp.row, tileTwoComp.col))
+        if (tileOne.testNeighbor(tileTwo.row, tileTwo.col))
         {
             //swap tiles
             this.board.swapTiles(tileOne, tileTwo);
